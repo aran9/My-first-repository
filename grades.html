@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+  .coolTable {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-color: #fff;
+}
+
+.coolTable td {
+  font-family: Arial, sans-serif;
+  border-width: 1px;
+  border-style: solid;
+  overflow: hidden;
+  word-break: normal;
+  border-color: grey;
+  color: #333; //text
+  background-color: #FFFFFF;
+}
+
+.coolTable th {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 10px 5px;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  border-color: #ccc;
+  color: #333;
+  background-color: #e0e0e0;
+}
+
+.coolTable .leftentries {
+  text-align: left;
+  background-color: #FFFFFF;
+}
+
+.coolTable .entries {
+  text-align: right;
+  background-color: #FFFFFF;
+}
+
+.coolTable .headsup {
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.marginal {
+  margin-bottom: 50px;
+}
+
+.smash {
+  background: green;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 10px;
+  border-color: orange;
+}
+  </style>
+    <meta charset="UTF-8">
+    <title>title</title>
+  </head>
+  
+  
+  <body>
+   <table id="table" class="coolTable" class="marginal" class="bottom-space" style="width:100%">
+    <tr>
+      <th  class="headsup">Name</th>
+      <th  class="headsup">ID#</th>
+      <th  class="headsup">Assignment 1</th>
+      <th  class="headsup">Final Grade</th>
+    </tr>
+    <tr>
+      <td class="leftentries" contenteditable="true">-</td>
+      <td class="leftentries" contenteditable="true">-</td>
+      <td class="entries" contenteditable="true">-</td>
+      <td class="entries">-</td>
+    </tr>
+   
+  </table>
+  
+    
+    <button class="smash" class="marginal" onclick="smartcalculate()">Calculate averages</button>
+    <button class="smash" class="marginal" onclick="columnjuju()">New Column</button>
+    <button class="smash" class="marginal" onclick="rowjuju()">New Row</button>
+    <button class="smash" class="marginal" onclick="BakeCookie()">Save table to cookie</button>
+    <button class="smash" class="marginal" onclick="PutThatCookieDownNow()">Load table from cookie</button>
+   
+  
+    
+    
+  <script>
+    BakeCookie = function(){
+	burn();
+	var aa = document.getElementsByTagName("th");
+	var bb = document.getElementsByTagName("td");
+	var length = bb.length/aa.length;
+  var length2=aa.length;
+  var length3=bb.length
+	for(var cc=0; cc<length3; cc++){
+  	var here=cc+1;
+		if(here%length2==0){
+			var special = bb[cc].innerText;
+      special = special.substring(0,(special.length-1));
+			document.cookie="Data"+here+"="+special+";";
+    }
+    else{
+    	document.cookie="Data"+here+"="+bb[cc].innerText+";";	  
+		}
+	}
+ 	document.cookie="Datax="+length2+";";
+  document.cookie="Datay="+length+";";
+
+	alert("Data saved for a "+length2+" by "+length+" table.");
+	var x =document.cookie;
+	alert(x);
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+burn = function(){
+	var dd = document.getElementsByTagName("td");
+  var how = 9999;
+	for(var del=1; del<=how; del++){
+  	document.cookie = "Data"+del+"=; expires=Thu, 01 Jan 1970 00:00:01 UTC;";
+  }
+  document.cookie = "Datax=; expires=Thu, 01 Jan 1970 00:00:01 UTC;";
+  document.cookie = "Datay=; expires=Thu, 01 Jan 1970 00:00:01 UTC;";
+  //alert("cookies deleted");
+  
+}
+
+PutThatCookieDownNow = function(){
+	var xx = document.getElementsByTagName("th");
+	var yy = document.getElementsByTagName("td");
+  var currentwidth = xx.length;
+  var currentlength = yy.length/xx.length;
+  var savedwidth =  getCookie("Datax");
+  var savedlength = getCookie("Datay");
+	if((currentwidth==savedwidth)&&(currentlength==savedlength)){
+  	for(var atlast=1; atlast<=yy.length; atlast++){
+    	var test = String(atlast);
+      var thiscookie = "Data"+test;   
+     	var goodcookie = getCookie(thiscookie);   
+      var newlast = atlast-1;
+      if(atlast%currentwidth==0){
+      	yy[newlast].innerText = goodcookie+"%";
+      }
+      else{
+      	yy[newlast].innerText = goodcookie;
+        }
+    }
+	}
+	
+	else{
+		alert("Table needs to have "+savedwidth+" columns and "+savedlength+" rows to load the requested data.");
+	  }
+    
+ 
+}
+
+
+
+
+
+rowjuju = function(){ 
+
+var table = document.getElementById("table");
+var legs = table.getElementsByTagName("tr");
+
+var rowin = table.insertRow(table.length);
+
+var heads = table.getElementsByTagName("th");
+for(var k=0; k < (heads.length); k++){
+
+var cell1 = rowin.insertCell(0);
+}
+for(var e=0; e<heads.length; e++){
+var h1 = document.getElementsByTagName("td")[((legs.length-2)*heads.length)+e];
+
+if(e>1){
+var att1 = document.createAttribute("class");  
+att1.value = "entries";              
+h1.setAttributeNode(att1);
+}
+else{
+var att2 = document.createAttribute("class");  
+att2.value = "leftentries";              
+h1.setAttributeNode(att2);
+}
+if(e<heads.length-1){
+var att3 = document.createAttribute("contenteditable");  
+att3.value = "true";              
+h1.setAttributeNode(att3);
+
+}
+h1.innerHTML = "-";
+}
+} //Its perfect dont mess it up
+
+
+
+
+
+
+columnjuju = function(){
+var table = document.getElementById("table");
+var legs2 = table.getElementsByTagName("tr");
+var heads = table.getElementsByTagName("th");
+
+var tr = legs2[0].insertCell(heads.length-1).outerHTML = "<th>Assignment </th>";//put th																									//inner text should be Assignment heads.length-2
+
+var heads = table.getElementsByTagName("th");
+
+
+var hx = heads[heads.length-2]; //put attributes
+var att1 = document.createAttribute("class");  
+att1.value = "headsup";              
+hx.setAttributeNode(att1);
+
+heads[heads.length-2].innerHTML += parseInt(heads.length-3); //dynamic header text
+
+for(var f=1; f<legs2.length; f++){
+var cell2 =legs2[f].insertCell(heads.length-2);//put cell
+
+
+var h2 = document.getElementsByTagName("td")[((f-1)*heads.length)+heads.length-2]; //put attributes
+var att1 = document.createAttribute("class");  
+att1.value = "entries";              
+h2.setAttributeNode(att1);
+
+var att3 = document.createAttribute("contenteditable");  
+att3.value = "true";              
+h2.setAttributeNode(att3);
+
+h2.innerHTML = "-";       
+}
+}
+
+
+
+
+
+
+smartcalculate = function() { //also perfect, dont change a thing
+	var wowrows =document.getElementsByTagName("tr");
+  var Nrows = wowrows.length-1;
+  var wowassignments = document.getElementsByTagName("th");
+  var Nassignments = wowassignments.length-3; //Nassignments-3
+  
+  var cells = document.getElementsByTagName("td");
+	for (var i = 0; i <Nrows; i++){
+  var rowTotal = 0;
+  for (var j = 1; j <=Nassignments; j++) {
+    var currentlocation = ((j+2)+(i*(Nassignments+3)))-1;
+    var current = (cells[currentlocation].innerText);
+
+    rowTotal += parseInt(current);
+  }
+  
+  rowTotal /=Nassignments;
+  if(rowTotal <= 100){
+  cells[((i+1)*(Nassignments+3))-1].innerHTML = Math.round(rowTotal)+"%";
+  
+  if (parseInt(rowTotal)<40){
+  cells[((i+1)*(Nassignments+3))-1].style.background= "#FF0000";
+  cells[((i+1)*(Nassignments+3))-1].style.color= "#FFFFFF";
+  }
+  else{
+  cells[((i+1)*(Nassignments+3))-1].style.background= "#FFFFFF";
+  cells[((i+1)*(Nassignments+3))-1].style.color= "#333";
+  }
+  }
+	}
+}
+  </script>
+  </body>
+</html>
