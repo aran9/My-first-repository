@@ -1,0 +1,7 @@
+function aranscrape(url) {
+    var scraper = require('table-scraper');
+    scraper.get(/*url*/'http://www.border.gov.au/Busi/cargo-support-trade-and-goods/importing-goods/tariff-classification-of-goods/current-tariff-classification/schedule-3/section-i/chapter-1').then(function(tableData){});
+    
+    
+    db.getCollection('TCoG').insertMany(/*The generated array*/)
+}
